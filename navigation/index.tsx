@@ -14,6 +14,7 @@ import * as React from 'react';
 import { ColorSchemeName, View } from 'react-native';
 import Colors from '../constants/Colors';
 import ChatRoomScreen from '../screens/ChatRoomScreen';
+import ContactsScreen from '../screens/ContactsScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
 import { RootStackParamList } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
@@ -76,6 +77,11 @@ function RootNavigator() {
 					),
 				}}
 			/>
+
+			{/* Contact screen */}
+			<Stack.Screen name="Contacts" component={ContactsScreen} />
+
+			{/* Chat room screen */}
 			<Stack.Screen
 				name="ChatRoom"
 				component={ChatRoomScreen}
