@@ -1,6 +1,7 @@
+import { useNavigation } from '@react-navigation/native';
 import moment from 'moment';
 import React from 'react';
-import { Image, StyleSheet } from 'react-native';
+import { Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { ChatRoom } from '../types';
 import { Text, View } from './Themed';
 
@@ -11,24 +12,33 @@ export type ChatListItemProps = {
 export default function ChatListItem(props: ChatListItemProps) {
 	const { chatRoom } = props;
 	const user = chatRoom.users[1];
+	const navigation = useNavigation();
+
+	const handelPress = () => {
+		navigation.navigate('ChatRoom', {
+			name: user.name,
+		});
+	};
 
 	return (
-		<View style={styles.container}>
-			<Image source={{ uri: user.imageUri }} style={styles.avatar} />
+		<TouchableOpacity activeOpacity={0.5} onPress={handelPress}>
+			<View style={styles.container}>
+				<Image source={{ uri: user.imageUri }} style={styles.avatar} />
 
-			<View style={styles.info}>
-				<View style={styles.nameWrapper}>
-					<Text style={styles.username}>{user.name}</Text>
-					<Text style={styles.time}>
-						{moment(chatRoom.lastMessage.createAt).format('DD-MM-YYYY')}
+				<View style={styles.info}>
+					<View style={styles.nameWrapper}>
+						<Text style={styles.username}>{user.name}</Text>
+						<Text style={styles.time}>
+							{moment(chatRoom.lastMessage.createAt).format('DD-MM-YYYY')}
+						</Text>
+					</View>
+
+					<Text style={styles.content} numberOfLines={1}>
+						{chatRoom.lastMessage.content}
 					</Text>
 				</View>
-
-				<Text style={styles.content} numberOfLines={1}>
-					{chatRoom.lastMessage.content}
-				</Text>
 			</View>
-		</View>
+		</TouchableOpacity>
 	);
 }
 
@@ -68,6 +78,7 @@ const styles = StyleSheet.create({
 	},
 
 	time: {
+		fontSize: 13,
 		color: 'grey',
 	},
 });

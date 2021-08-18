@@ -1,23 +1,23 @@
-/**
- * If you are not familiar with React Navigation, check out the "Fundamentals" guide:
- * https://reactnavigation.org/docs/getting-started
- *
- */
-import { Entypo, Ionicons } from '@expo/vector-icons';
 import {
-	NavigationContainer,
-	DefaultTheme,
+	Entypo,
+	FontAwesome,
+	Ionicons,
+	MaterialIcons,
+} from '@expo/vector-icons';
+import {
 	DarkTheme,
+	DefaultTheme,
+	NavigationContainer,
 } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
 import { ColorSchemeName, View } from 'react-native';
 import Colors from '../constants/Colors';
-
+import ChatRoomScreen from '../screens/ChatRoomScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
 import { RootStackParamList } from '../types';
-import MainTabNavigator from './MainTabNavigator';
 import LinkingConfiguration from './LinkingConfiguration';
+import MainTabNavigator from './MainTabNavigator';
 
 export default function Navigation({
 	colorScheme,
@@ -34,8 +34,6 @@ export default function Navigation({
 	);
 }
 
-// A root stack navigator is often used for displaying modals on top of all other content
-// Read more here: https://reactnavigation.org/docs/modal
 const Stack = createStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
@@ -77,6 +75,40 @@ function RootNavigator() {
 						</View>
 					),
 				}}
+			/>
+			<Stack.Screen
+				name="ChatRoom"
+				component={ChatRoomScreen}
+				options={({ route }) => ({
+					title: route.params.name,
+					headerRight: () => (
+						<View
+							style={{
+								flexDirection: 'row',
+								justifyContent: 'space-between',
+								marginRight: 6,
+								width: 120,
+							}}
+						>
+							<FontAwesome
+								name="video-camera"
+								size={24}
+								color={Colors.dark.text}
+							/>
+							<MaterialIcons
+								style={{ marginLeft: 4 }}
+								name="call"
+								size={24}
+								color={Colors.dark.text}
+							/>
+							<Entypo
+								name="dots-three-vertical"
+								size={24}
+								color={Colors.dark.text}
+							/>
+						</View>
+					),
+				})}
 			/>
 			<Stack.Screen
 				name="NotFound"
