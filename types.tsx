@@ -22,7 +22,7 @@ export type Message = {
 	id: string;
 	content: string;
 	createAt: string;
-	// user: User;
+	user: User;
 };
 
 export type ChatRoom = {

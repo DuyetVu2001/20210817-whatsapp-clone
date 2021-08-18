@@ -1,20 +1,27 @@
 import { useRoute } from '@react-navigation/native';
 import React from 'react';
-import { StyleSheet } from 'react-native';
-import { Text, View } from '../components/Themed';
+import { FlatList, ImageBackground } from 'react-native';
+import ChatMessage from '../components/ChatMessage';
+import { View } from '../components/Themed';
+import Chats from '../data/Chats';
 
 export default function ChatRoomScreen() {
 	const route = useRoute();
 
-	console.log(route.params);
-
 	return (
-		<View style={styles.container}>
-			<Text>Chat room</Text>
+		<View>
+			<ImageBackground
+				source={require('../assets/images/bg.png')}
+				style={{ width: '100%', height: '100%' }}
+			>
+				<FlatList
+					showsVerticalScrollIndicator={false}
+					data={Chats.messages}
+					renderItem={({ item }) => <ChatMessage message={item} />}
+					keyExtractor={(item) => item.id}
+					inverted
+				/>
+			</ImageBackground>
 		</View>
 	);
 }
-
-const styles = StyleSheet.create({
-	container: {},
-});
