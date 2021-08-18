@@ -1,8 +1,3 @@
-/**
- * Learn more about using TypeScript with React Navigation:
- * https://reactnavigation.org/docs/typescript/
- */
-
 export type RootStackParamList = {
 	Root: undefined;
 	NotFound: undefined;
@@ -15,10 +10,22 @@ export type MainTabParamList = {
 	Calls: undefined;
 };
 
-export type TabOneParamList = {
-	TabOneScreen: undefined;
+export type User = {
+	id: string;
+	name: string;
+	imageUri: string;
+	// status: string;
 };
 
-export type TabTwoParamList = {
-	TabTwoScreen: undefined;
+export type Message = {
+	id: string;
+	content: string;
+	createAt: string;
+	// user: User;
+};
+
+export type ChatRoom = {
+	id: string;
+	users: User[];
+	lastMessage: Message;
 };
