@@ -16,6 +16,7 @@ export default function ChatListItem(props: ChatListItemProps) {
 
 	const handelPress = () => {
 		navigation.navigate('ChatRoom', {
+			id: chatRoom.id,
 			name: user.name,
 		});
 	};
