@@ -1,6 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
+import { Auth } from 'aws-amplify';
 import moment from 'moment';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { ChatRoom } from '../types';
 import { Text, View } from './Themed';
@@ -11,31 +12,48 @@ export type ChatListItemProps = {
 
 export default function ChatListItem(props: ChatListItemProps) {
 	const { chatRoom } = props;
-	const user = chatRoom.users[1];
+	const [otherUser, setOtherUser] = useState(null);
+
 	const navigation = useNavigation();
+
+	useEffect(() => {
+		const getOtherUser = async () => {
+			const userInfo: any = await Auth.currentAuthenticatedUser();
+
+			userInfo.attributes.sub === chatRoom.chatRoomUsers.items[0].user.id
+				? setOtherUser(chatRoom.chatRoomUsers.items[1].user)
+				: setOtherUser(chatRoom.chatRoomUsers.items[0].user);
+		};
+
+		getOtherUser();
+	}, []);
 
 	const handelPress = () => {
 		navigation.navigate('ChatRoom', {
 			id: chatRoom.id,
-			name: user.name,
+			name: otherUser.name,
 		});
 	};
+
+	if (!otherUser) return null;
 
 	return (
 		<TouchableOpacity activeOpacity={0.5} onPress={handelPress}>
 			<View style={styles.container}>
-				<Image source={{ uri: user.imageUri }} style={styles.avatar} />
+				<Image source={{ uri: otherUser.imageUri }} style={styles.avatar} />
 
 				<View style={styles.info}>
 					<View style={styles.nameWrapper}>
-						<Text style={styles.username}>{user.name}</Text>
+						<Text style={styles.username}>{otherUser.name}</Text>
 						<Text style={styles.time}>
-							{moment(chatRoom.lastMessage.createAt).format('DD-MM-YYYY')}
+							1-1-2021
+							{/* {moment(chatRoom.lastMessage.createAt).format('DD-MM-YYYY')} */}
 						</Text>
 					</View>
 
 					<Text style={styles.content} numberOfLines={1}>
-						{chatRoom.lastMessage.content}
+						nothing...
+						{/* {chatRoom.lastMessage.content} */}
 					</Text>
 				</View>
 			</View>
