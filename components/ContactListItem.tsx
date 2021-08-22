@@ -25,7 +25,7 @@ export default function ContactListItem(props: ContactListItemProps) {
 					</View>
 
 					<Text style={styles.content} numberOfLines={1}>
-						status
+						{user.status}
 					</Text>
 				</View>
 			</View>
