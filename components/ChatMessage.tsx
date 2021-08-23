@@ -11,9 +11,15 @@ export type ChatMessageProps = {
 export default function ChatMessage(props: ChatMessageProps) {
 	const { message } = props;
 
+	const isUser: boolean = message.user.name === 'Vadim';
+	const styleContainer: Object = !isUser && {
+		alignSelf: 'flex-start',
+		backgroundColor: 'white',
+	};
+
 	return (
-		<View style={styles.container}>
-			<Text style={styles.name}>{message.user.name}</Text>
+		<View style={[styles.container, styleContainer]}>
+			{!isUser && <Text style={styles.name}>{message.user.name}</Text>}
 			<Text style={styles.content}>{message.content}</Text>
 			<Text style={styles.time}>
 				{moment(message.createAt).format('hh:mm')}
@@ -28,7 +34,7 @@ const styles = StyleSheet.create({
 		maxWidth: '80%',
 		borderRadius: 6,
 
-		marginVertical: 4,
+		marginVertical: 6,
 		marginHorizontal: 12,
 		paddingVertical: 6,
 		paddingHorizontal: 12,

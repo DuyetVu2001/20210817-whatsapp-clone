@@ -6,7 +6,7 @@ import InputBox from '../components/InputBox';
 import Chats from '../data/Chats';
 
 export default function ChatRoomScreen() {
-	const route = useRoute();
+	const route: any = useRoute();
 
 	return (
 		<ImageBackground
@@ -16,12 +16,12 @@ export default function ChatRoomScreen() {
 			<FlatList
 				showsVerticalScrollIndicator={false}
 				data={Chats.messages}
-				renderItem={({ item }) => <ChatMessage message={item} />}
+				renderItem={({ item }: any) => <ChatMessage message={item} />}
 				keyExtractor={(item) => item.id}
 				inverted
 			/>
 
-			<InputBox />
+			<InputBox chatRoomID={route.params.id} />
 		</ImageBackground>
 	);
 }
