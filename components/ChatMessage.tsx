@@ -6,24 +6,23 @@ import { Text, View } from './Themed';
 
 export type ChatMessageProps = {
 	message: Message;
+	myID: any;
 };
 
 export default function ChatMessage(props: ChatMessageProps) {
-	const { message } = props;
+	const { message, myID } = props;
 
-	const isUser: boolean = message.user.name === 'Vadim';
-	const styleContainer: Object = !isUser && {
+	const isMyMessage: boolean = message.user.id == myID;
+	const styleContainer: Object = !isMyMessage && {
 		alignSelf: 'flex-start',
 		backgroundColor: 'white',
 	};
 
 	return (
 		<View style={[styles.container, styleContainer]}>
-			{!isUser && <Text style={styles.name}>{message.user.name}</Text>}
+			{!isMyMessage && <Text style={styles.name}>{message.user.name}</Text>}
 			<Text style={styles.content}>{message.content}</Text>
-			<Text style={styles.time}>
-				{moment(message.createAt).format('hh:mm')}
-			</Text>
+			<Text style={styles.time}>{moment(message.createAt).fromNow()}</Text>
 		</View>
 	);
 }

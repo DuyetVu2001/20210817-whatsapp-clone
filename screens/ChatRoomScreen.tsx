@@ -1,12 +1,47 @@
 import { useRoute } from '@react-navigation/native';
-import React from 'react';
-import { FlatList, ImageBackground, Text } from 'react-native';
+import { API, Auth, graphqlOperation } from 'aws-amplify';
+import React, { useEffect, useState } from 'react';
+import { FlatList, ImageBackground } from 'react-native';
 import ChatMessage from '../components/ChatMessage';
 import InputBox from '../components/InputBox';
-import Chats from '../data/Chats';
+import { messagesByChatRoom } from '../src/graphql/queries';
 
 export default function ChatRoomScreen() {
 	const route: any = useRoute();
+	const chatRoomID = route.params.id;
+
+	const [messages, setMessages] = useState([]);
+	const [myID, setMyID] = useState(null);
+
+	useEffect(() => {
+		const getMyID = async () => {
+			try {
+				const userInfo: any = await Auth.currentAuthenticatedUser();
+				setMyID(userInfo.attributes.sub);
+			} catch (error) {
+				console.log(error);
+			}
+		};
+		getMyID();
+	}, []);
+
+	useEffect(() => {
+		const fetchMessages = async () => {
+			try {
+				const messagesData: any = await API.graphql(
+					graphqlOperation(messagesByChatRoom, {
+						chatRoomID,
+						sortDirection: 'DESC',
+					})
+				);
+
+				setMessages(messagesData.data.messagesByChatRoom.items);
+			} catch (error) {
+				console.log(error);
+			}
+		};
+		fetchMessages();
+	}, []);
 
 	return (
 		<ImageBackground
@@ -15,13 +50,15 @@ export default function ChatRoomScreen() {
 		>
 			<FlatList
 				showsVerticalScrollIndicator={false}
-				data={Chats.messages}
-				renderItem={({ item }: any) => <ChatMessage message={item} />}
-				keyExtractor={(item) => item.id}
+				data={messages}
+				renderItem={({ item }: any) => (
+					<ChatMessage myID={myID} message={item} />
+				)}
+				keyExtractor={(item: any) => item.id}
 				inverted
 			/>
 
-			<InputBox chatRoomID={route.params.id} />
+			<InputBox chatRoomID={chatRoomID} />
 		</ImageBackground>
 	);
 }
