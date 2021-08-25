@@ -18,7 +18,6 @@ export default function ChatsScreen() {
 				);
 
 				setChatRooms(userData.data.getUser.chatRoomUsers.items);
-				console.log('userData', userData.data.getUser.chatRoomUsers.items);
 			} catch (error) {
 				console.error(error);
 			}
