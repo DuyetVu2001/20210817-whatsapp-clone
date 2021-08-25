@@ -19,7 +19,7 @@ export default function ChatRoomScreen() {
 				const userInfo: any = await Auth.currentAuthenticatedUser();
 				setMyID(userInfo.attributes.sub);
 			} catch (error) {
-				console.log(error);
+				console.error(error);
 			}
 		};
 		getMyID();
@@ -37,7 +37,7 @@ export default function ChatRoomScreen() {
 
 				setMessages(messagesData.data.messagesByChatRoom.items);
 			} catch (error) {
-				console.log(error);
+				console.error(error);
 			}
 		};
 		fetchMessages();

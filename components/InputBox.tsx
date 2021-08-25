@@ -8,7 +8,7 @@ import { API, Auth, graphqlOperation } from 'aws-amplify';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
 import Colors from '../constants/Colors';
-import { createMessage } from '../src/graphql/mutations';
+import { createMessage, updateChatRoom } from '../src/graphql/mutations';
 
 export default function InputBox(props: any) {
 	const { chatRoomID } = props;
@@ -32,9 +32,24 @@ export default function InputBox(props: any) {
 		console.warn('Microphone press!');
 	};
 
-	const onSendPress = async () => {
+	const updateLastMessage = async (lastMessageID: string) => {
 		try {
 			await API.graphql(
+				graphqlOperation(updateChatRoom, {
+					input: {
+						id: chatRoomID,
+						lastMessageID,
+					},
+				})
+			);
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
+	const onSendPress = async () => {
+		try {
+			const messageInfo: any = await API.graphql(
 				graphqlOperation(createMessage, {
 					input: {
 						content: message,
@@ -45,6 +60,8 @@ export default function InputBox(props: any) {
 			);
 
 			setMessage('');
+
+			await updateLastMessage(messageInfo.data.createMessage.id);
 		} catch (error) {
 			console.error(error);
 		}

@@ -18,7 +18,11 @@ export default function ContactListItem(props: ContactListItemProps) {
 		try {
 			// 1. Create a new chat room
 			const newChatRoomData: any = await API.graphql(
-				graphqlOperation(createChatRoom, { input: {} })
+				graphqlOperation(createChatRoom, {
+					input: {
+						lastMessageID: 'ds1dfd2e-0e0a-4993-a99d-5349aa846394',
+					},
+				})
 			);
 
 			if (!newChatRoomData.data) {

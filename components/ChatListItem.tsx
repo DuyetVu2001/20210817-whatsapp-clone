@@ -11,8 +11,8 @@ export type ChatListItemProps = {
 };
 
 export default function ChatListItem(props: ChatListItemProps) {
-	const { chatRoom } = props;
-	const [otherUser, setOtherUser] = useState(null);
+	const { chatRoom }: any = props;
+	const [otherUser, setOtherUser]: any = useState(null);
 
 	const navigation = useNavigation();
 
@@ -46,14 +46,13 @@ export default function ChatListItem(props: ChatListItemProps) {
 					<View style={styles.nameWrapper}>
 						<Text style={styles.username}>{otherUser.name}</Text>
 						<Text style={styles.time}>
-							1-1-2021
-							{/* {moment(chatRoom.lastMessage.createAt).format('DD-MM-YYYY')} */}
+							{chatRoom.lastMessage &&
+								moment(chatRoom.lastMessage.createAt).format('DD-MM-YYYY')}
 						</Text>
 					</View>
 
 					<Text style={styles.content} numberOfLines={1}>
-						nothing...
-						{/* {chatRoom.lastMessage.content} */}
+						{chatRoom.lastMessage && chatRoom.lastMessage.content}
 					</Text>
 				</View>
 			</View>
