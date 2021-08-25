@@ -46,7 +46,7 @@ function RootNavigator() {
 					shadowOpacity: 0,
 					elevation: 0,
 				},
-				headerTintColor: Colors.dark.text,
+				headerTintColor: 'white',
 				headerTitleAlign: 'left',
 				headerTitleStyle: {
 					fontSize: 20,
@@ -67,12 +67,8 @@ function RootNavigator() {
 								marginRight: 8,
 							}}
 						>
-							<Ionicons name="search" size={24} color={Colors.dark.text} />
-							<Entypo
-								name="dots-three-vertical"
-								size={24}
-								color={Colors.dark.text}
-							/>
+							<Ionicons name="search" size={24} color="white" />
+							<Entypo name="dots-three-vertical" size={24} color="white" />
 						</View>
 					),
 				}}
@@ -96,22 +92,14 @@ function RootNavigator() {
 								width: 120,
 							}}
 						>
-							<FontAwesome
-								name="video-camera"
-								size={24}
-								color={Colors.dark.text}
-							/>
+							<FontAwesome name="video-camera" size={24} color="white" />
 							<MaterialIcons
 								style={{ marginLeft: 4 }}
 								name="call"
 								size={24}
-								color={Colors.dark.text}
+								color="white"
 							/>
-							<Entypo
-								name="dots-three-vertical"
-								size={24}
-								color={Colors.dark.text}
-							/>
+							<Entypo name="dots-three-vertical" size={24} color="white" />
 						</View>
 					),
 				})}
