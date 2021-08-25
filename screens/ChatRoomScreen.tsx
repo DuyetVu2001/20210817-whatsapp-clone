@@ -5,6 +5,7 @@ import { FlatList, ImageBackground } from 'react-native';
 import ChatMessage from '../components/ChatMessage';
 import InputBox from '../components/InputBox';
 import { messagesByChatRoom } from '../src/graphql/queries';
+import { onCreateMessage } from '../src/graphql/subscriptions';
 
 export default function ChatRoomScreen() {
 	const route: any = useRoute();
@@ -40,8 +41,25 @@ export default function ChatRoomScreen() {
 				console.error(error);
 			}
 		};
+
 		fetchMessages();
 	}, []);
+
+	useEffect(() => {
+		const subscription = API.graphql(
+			graphqlOperation(onCreateMessage)
+		).subscribe({
+			next: (data) => {
+				const newMessage = data.value.data.onCreateMessage;
+
+				if (newMessage.chatRoomID !== chatRoomID) return;
+
+				setMessages((state) => [newMessage, ...state]);
+			},
+		});
+
+		return () => subscription.unsubscribe();
+	});
 
 	return (
 		<ImageBackground
